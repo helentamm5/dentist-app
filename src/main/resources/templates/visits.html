@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+    <style>
+
+        body {
+            width: 100%;
+            text-align: center;
+        }
+
+        #centerContainer {
+            width: 900px;
+            text-align: left;
+            margin: 0 auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-radius: 5px;
+            border-style: hidden;
+            box-shadow: 0 0 0 1px #666;
+            margin-top: 10px;
+        }
+
+        input {
+            border-radius: 5px;
+        }
+
+        button {
+            border-radius: 5px;
+        }
+
+        .delete-visit {
+            margin-left: auto;
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-size: 13px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        td {
+            border: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+<body>
+<div id="centerContainer">
+    <h1 th:text="#{visits}">visits</h1>
+
+    <div class="search">
+        <form th:action="@{/visits}" method="get">
+        <span><input placeholder="Arsti nimi" type="text" id="txtSearch" name="keyword"/>
+        <button type="submit" th:text="#{search}">search</button></span>
+        </form>
+    </div>
+
+    <div class="addVisit">
+        <a th:href="@{/}">
+            <button type="button" th:text="#{visit.add}">visit.add</button>
+        </a>
+    </div>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th th:text="#{dentist.name}">dentist.name</th>
+            <th th:text="#{visit.date}">visit.date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="visit : ${visits}">
+            <td th:text="${visit.dentistName}"
+                th:value="${visit.id}">
+            </td>
+            <td th:text="${#calendars.format(visit.visitTime, 'dd/MM/yyyy HH:mm')}"
+                th:value="${visit.id}">
+            </td>
+            <td><a th:href="@{/deleteVisit/{id}(id=${visit.id})}" class="delete-visit">X</a>
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+</body>
+</html>
